@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Diseño Experimental",
+    "section": "",
+    "text": "Título: Efecto de tres dosis de compost sobre el crecimiento y rendimiento del cultivo de maíz (Zea mays L.).\nTipo de investigación: Experimental.\nDiseño experimental: Diseño de Bloques Completos al Azar (DBCA).\nLugar propuesto: Chachapoyas, Amazonas, Perú."
+  },
+  {
+    "objectID": "index.html#objetivo-general",
+    "href": "index.html#objetivo-general",
+    "title": "Diseño Experimental",
+    "section": "Objetivo general",
+    "text": "Objetivo general\nEvaluar el efecto de tres dosis de compost sobre el crecimiento y rendimiento del cultivo de maíz (Zea mays L.)."
+  },
+  {
+    "objectID": "index.html#objetivos-específicos",
+    "href": "index.html#objetivos-específicos",
+    "title": "Diseño Experimental",
+    "section": "Objetivos específicos",
+    "text": "Objetivos específicos\n\nEvaluar la altura de las plantas de maíz bajo diferentes dosis de compost.\nDeterminar el efecto de las dosis de compost sobre el diámetro del tallo.\nComparar el rendimiento de grano del cultivo de maíz entre los tres tratamientos."
+  },
+  {
+    "objectID": "index.html#preparación-de-las-unidades-experimentales",
+    "href": "index.html#preparación-de-las-unidades-experimentales",
+    "title": "Diseño Experimental",
+    "section": "Preparación de las unidades experimentales",
+    "text": "Preparación de las unidades experimentales\nSe seleccionará un terreno agrícola con condiciones adecuadas para el cultivo de maíz.\nSe realizará la limpieza y preparación del suelo, seguida de la delimitación de doce parcelas experimentales de 3 m de ancho por 4 m de largo.\nLas parcelas serán agrupadas en cuatro bloques, considerando las posibles diferencias del terreno.\nSe utilizarán semillas de maíz de una misma variedad y calidad uniforme."
+  },
+  {
+    "objectID": "index.html#aplicación-de-tratamientos",
+    "href": "index.html#aplicación-de-tratamientos",
+    "title": "Diseño Experimental",
+    "section": "Aplicación de tratamientos",
+    "text": "Aplicación de tratamientos\nAntes de la siembra se realizará la distribución de los tratamientos de acuerdo con la aleatorización previamente establecida.\nLas dosis de compost serán:\n\nT0: Sin aplicación de compost.\nT1: Aplicación de 6 kg de compost por parcela.\nT2: Aplicación de 12 kg de compost por parcela.\n\nEl compost será incorporado al suelo antes de la siembra. Se utilizará compost estabilizado y se procurará mantener un manejo uniforme en todas las parcelas."
+  },
+  {
+    "objectID": "index.html#siembra-y-manejo-agronómico",
+    "href": "index.html#siembra-y-manejo-agronómico",
+    "title": "Diseño Experimental",
+    "section": "Siembra y manejo agronómico",
+    "text": "Siembra y manejo agronómico\nLa siembra se realizará utilizando un distanciamiento propuesto de 0,75 m entre surcos y 0,30 m entre plantas.\nDurante el desarrollo del cultivo se realizarán actividades de riego, control de malezas y manejo fitosanitario de manera uniforme.\nEl cultivo será monitoreado periódicamente para observar su crecimiento y desarrollo."
+  },
+  {
+    "objectID": "index.html#evaluación",
+    "href": "index.html#evaluación",
+    "title": "Diseño Experimental",
+    "section": "Evaluación",
+    "text": "Evaluación\nSe realizarán evaluaciones de crecimiento durante el desarrollo vegetativo del cultivo.\nLa altura de planta y el diámetro del tallo se registrarán mediante mediciones en plantas seleccionadas de cada parcela.\nAl momento de la cosecha se determinará el rendimiento de grano por unidad experimental, considerando la superficie útil y una humedad de grano estandarizada."
+  },
+  {
+    "objectID": "files/phenomics.html",
+    "href": "files/phenomics.html",
+    "title": "Phenomics Project",
+    "section": "",
+    "text": "Tools required for image analysis\n\n1 Resources\n\nGit: Version control system\nAnaconda: Anaconda\nLabel Studio: Label Studio\nLabels design: Huito package\nPhenoboard: Phenotyping board\nScale: Phenotyping board\n\n\n\n2 Repository for Image Analysis Annotation\nThis instructions are designed for the management, organization, and utilization of images for annotation processes in image analysis projects. The following guidelines must be observed:\n\nAll images must be placed in the library folder.\n\nThe script code contains the instructions for moving images in blocks.\n\nIt is necessary to ensure that images are not duplicated and are properly rotated before use.\nThe website associated with this repository will display only the content defined in the _quarto.yml.\n\nThe website must be built using the command:\nquarto render website\n\nThe library folder will be hosted on the website, and each image will be assigned a unique URL.\nImage URLs can be extracted using the code provided in Image URL for Label Studio.\nThe generated links should be employed as references for annotations in Label Studio.\n\n\n\n3 Change or fix image path\n\nlibrary(tidyverse)\nlibrary(magick)\n\nimgdir &lt;- choose.dir() \nnewdir &lt;- choose.dir() \n\nimgfiles &lt;- list.files(path = imgdir\n                       , full.names = T\n                       , recursive = T\n                       )\n\nmovefiles &lt;- imgfiles %&gt;% \n  enframe(name = \"num\", value = \"path\") %&gt;% \n  mutate(imgname = gsub('.*GERM/(.+)', '\\\\1', path)) %&gt;% \n  mutate(across(imgname, ~gsub('/', '_', .))) %&gt;% \n  mutate(across(imgname, ~gsub('[[:space:]]', '-', .))) %&gt;% \n  mutate(across(imgname, ~gsub('\\\\(|\\\\)', '_', .))) %&gt;% \n  mutate(across(imgname, ~gsub('__', '_', .))) %&gt;% \n  mutate(newdir = file.path({{newdir}}, imgname)) %&gt;% \n  filter(str_detect(imgname, \"DIA-(3|4)\")) %&gt;% \n  filter(!str_detect(imgname, \"mp4\"))\n\nnrow(movefiles)\n\nwalk(movefiles, \\(x) {\n  \n  file.copy(from = movefiles$path, to = movefiles$newdir\n            , overwrite = T)\n})\n\n\n\n4 Image URL for Label Studio\n\nnewdir &lt;- \"library/maiz/\"\n\nimgs &lt;- list.files(path = newdir\n                   , pattern = \"jpg\"\n                   , full.names = TRUE\n                   , recursive = TRUE\n                   ) %&gt;% \n  enframe() %&gt;% \n  mutate(url = file.path(\"https://flavjack.github.io/pheno-germination\", value))\n\nimgs %&gt;% \n  select(url) %&gt;% \n  write_csv(file.path(newdir, \"images4labelstudio.txt\"), col_names = F)"
+  },
+  {
+    "objectID": "files/labels.html",
+    "href": "files/labels.html",
+    "title": "Experimental Label",
+    "section": "",
+    "text": "1 Setup\n\nsource(\"https://inkaverse.com/setup.r\")\n\n\n\n2 Field-book\n\ngs &lt;- \"url\" %&gt;% \n  as_sheets_id()\n\nfb &lt;- gs %&gt;% \n  range_read(ss = .,sheet = \"fb\")\n\n#&gt; Google fonts: https://fonts.google.com/\n\nfont &lt;- c(\"Merriweather Sans\", \"Permanent Marker\", \"Tillana\")\nhuito_fonts(font)\n\n\n\n3 Labels\n\nlabel &lt;- fb %&gt;%\n  label_layout(size = c(5.2, 10)\n               , border_color = \"forestgreen\"\n               , border_width = 1.5\n               ) %&gt;%\n  include_image(\n    value = \"https://doctoradofisica.uni.edu.pe/wp-content/uploads/2024/01/d123d3.webp\"\n    , size = c(3, 3)\n    , position = c(1.6, 9.5)\n    ) %&gt;% \n  include_image(\n    value = \"https://huito.inkaverse.com/img/scale.pdf\"\n    , size = c(5, 1)\n    , position = c(2.6, 8.5)\n    ) %&gt;% \n  include_barcode(\n    value = \"qrcode\"\n    , size = c(5, 5)\n    , position = c(2.6, 5.5)\n    ) %&gt;% \n  include_text(value = \"plots\"\n               , position = c(4.4, 9.5)\n               , size = 16\n               , color = \"black\"\n               , font = font[3]\n               ) %&gt;% \n  include_text(value = \"factor1\"\n               , position = c(2.6, 2.6)\n               , size = 16\n               , color = \"blue\"\n               , font = font[1]\n               , prefix = \"Factor: \"\n               ) %&gt;% \n  include_text(value = \"factor2\"\n               , position = c(2.6, 1.8)\n               , size = 15\n               , color = \"red\"\n               , font = font[1]\n               , prefix = \"Factor: \"\n               ) %&gt;% \n  include_image(\n    value = \"https://huito.inkaverse.com/img/scale.pdf\"\n    , size = c(5, 1)\n    , position = c(2.6, 0.9)\n    , opts = 'image_convert(type = \"Grayscale\")'\n    ) \n\nlabel %&gt;% label_print(mode = \"preview\")\n\n\n\n4 Labels to print\n\nlabel %&gt;% \n  label_print(mode = \"complete\"\n              , filename = \"files/labels\"\n              # , paper = c(100, 100)\n              , units = \"cm\"\n              )"
+  },
+  {
+    "objectID": "index.html#gráfico-de-las-dosis-propuestas",
+    "href": "index.html#gráfico-de-las-dosis-propuestas",
+    "title": "Diseño Experimental",
+    "section": "Gráfico de las dosis propuestas",
+    "text": "Gráfico de las dosis propuestas\n\nbarplot(\n  height = c(0, 5, 10),\n  names.arg = c(\"T0\", \"T1\", \"T2\"),\n  col = c(\"gray80\", \"lightgreen\", \"darkgreen\"),\n  border = \"black\",\n  main = \"Dosis de compost en el cultivo de maíz\",\n  xlab = \"Tratamientos\",\n  ylab = \"Dosis de compost (t/ha)\",\n  ylim = c(0, 12)\n)\n\n\n\n\n\n\n\nFigura 1: Dosis de compost consideradas en el experimento."
+  }
+]
