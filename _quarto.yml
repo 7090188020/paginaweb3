@@ -9,7 +9,7 @@ project:
     - "!analysis.qmd"
 
 website:
-  title: "Inkaverse"
+  title: "Experimento de maiz"
   navbar:
     left:
       - href: index.qmd
@@ -29,9 +29,16 @@ website:
 format:
   html:
     theme: cosmo
-    css: files/style.css
     toc: true
+    toc-title: "Contenido"
+    toc-location: right
+    code-fold: true
+    code-summary: "Mostrar código R"
+    smooth-scroll: true
 
 execute:
   echo: true
-  eval: false
+  eval: true
+  output: true
+  warning: false
+  message: false
